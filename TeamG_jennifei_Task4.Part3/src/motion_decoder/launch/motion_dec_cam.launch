@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<launch>
+
+  <node name="motion_dec_cam" pkg="motion_dec_cam" type="motion_dec_cam" output="screen">
+  </node>
+
+  <include file="$(find motion_dec_cam)/launch/apriltags_ros.launch"/>
+  <include file="$(find motion_dec_cam)/launch/hector_camera.launch"/>
+
+  <node pkg="rosbag" type="play" name="player" args="--clock $(find motion_decoder)/bags/AprilTag_Moving.bag"/>
+</launch>

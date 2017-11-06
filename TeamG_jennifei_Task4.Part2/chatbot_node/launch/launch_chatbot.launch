@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<launch>
+  <param name ="name" type = "string" value ="Jen" />
+
+  <node name="chatbot_node" pkg="chatbot_node" type="chatbot_node" output="screen">
+  </node>
+
+  <node name="counter_node" pkg="counter_node" type="counter_node" output="screen">
+  </node>
+
+  <node name="arithmetic_node" pkg="arithmetic_node" type="arithmetic_node" output="screen">
+  </node>
+
+</launch>
