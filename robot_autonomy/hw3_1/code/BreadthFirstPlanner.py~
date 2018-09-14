@@ -1,0 +1,74 @@
+from Queue import * 
+from collections import deque
+import numpy as np
+
+class BreadthFirstPlanner(object):
+    
+    def __init__(self, planning_env, visualize):
+        self.planning_env = planning_env
+        self.visualize = visualize
+
+        
+    def Plan(self, start_config, goal_config):
+        
+        plan = []
+
+        # TODO: Here you will implement the breadth first planner
+        #  The return path should be a numpy array
+        #  of dimension k x n where k is the number of waypoints
+        #  and n is the dimension of the robots configuration space
+        
+
+        start_node = self.planning_env.discrete_env.ConfigurationToNodeId(start_config)
+        goal_node = self.planning_env.discrete_env.ConfigurationToNodeId(goal_config)
+        print(start_node)
+        print(goal_node)
+
+	# start config is the root node I guess 
+        nodes = deque()
+        visited_nodes = set()
+        path = dict() 
+	
+        root = start_node
+        path[root] = (None)
+        nodes.append(root)
+        print("root: ")
+        print(root)
+
+        while len(nodes) is not 0:
+            print("start", start_node)
+            print("goal", goal_node)
+            subtree = nodes.pop()
+            print("subtree: ") 
+            print(subtree)
+
+            if subtree is goal_node:
+                break 
+            for child in self.planning_env.GetSuccessors(subtree):
+                print("child", child)
+                print("visited", visited_nodes)
+                if child in visited_nodes:
+                    continue
+                if child not in nodes:
+                    path[child] = subtree
+                    nodes.append(child)
+            visited_nodes.add(subtree) 
+	# now we make the path 
+
+        plan_node = [] 
+        plan_node.append(goal_node)
+        curr_node = goal_node
+
+        while curr_node is not start_config:
+            prev_node = path[curr_node]
+            plan_node.append(prev_node)
+            curr_node = prev_node
+        plan_node = plan_node[::-1]
+
+        for i in plan_node:
+            plan.append(self.planning_env.discrete_env.NodeIdToConfiguration(i))
+            return plan
+
+
+
+

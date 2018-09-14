@@ -1,0 +1,2 @@
+marble_simulator_ode
+-DCATKIN_DEVEL_PREFIX=/home/bb8/Documents/marble_ws/devel -DCMAKE_INSTALL_PREFIX=/home/bb8/Documents/marble_ws/install -G Unix Makefiles

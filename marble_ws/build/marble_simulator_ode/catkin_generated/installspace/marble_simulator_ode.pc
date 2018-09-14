@@ -1,0 +1,8 @@
+prefix=/home/bb8/Documents/marble_ws/install
+
+Name: marble_simulator_ode
+Description: Description of marble_simulator_ode
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/bb8/Documents/marble_ws/install/lib 
+Requires: 

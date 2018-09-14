@@ -1,0 +1,79 @@
+
+class AStarPlanner(object):
+    
+    def __init__(self, planning_env, visualize):
+        self.planning_env = planning_env
+        self.visualize = visualize
+        self.nodes = dict()
+
+
+    def Plan(self, start_config, goal_config):
+
+        plan = []
+        
+        # TODO: Here you will implement the AStar planner
+        #  The return path should be a numpy array
+        #  of dimension k x n where k is the number of waypoints
+        #  and n is the dimension of the robots configuration space
+       
+        start_node = self.planning_env.discrete_env.ConfigurationToNodeId(start_config)
+        goal_node = self.planning_env.discrete_env.ConfigurationToNodeId(goal_config)
+        
+       
+        visited_nodes = {}
+         
+        open_list = set()
+        open_list.add(start_node)
+        closed_list = set()
+        curr_node = start_node
+
+        fcost = {}
+        curr_cost = self.planning_env.ComputeHeuristicCost(curr_node,goal_node)
+        fcost[start] = curr_cost
+
+        gcost = {}
+        gcost[start] = 0
+        
+        while len(open_list) != 0:
+            if curr_node == goal_node:
+                return make_plan(visited_nodes, curr_node)
+            
+            open_list.remove(curr_node)
+            closed_list.add(curr_node)
+            
+            
+            options = self.planning_env.GetSuccessors(curr_node)
+            curr_cost = self.planning_env.ComputeHeuristicCost(curr_node,goal_node)
+            best_cost = curr_cost
+            first = 0
+            for i in options:
+                first = first+1
+                if i in closed_list:
+                    continue
+                if i not in open_list:
+                    open_list.add(i)
+                
+                opt_cost = self.planning_env.ComputeHeuristicCost(curr_node,i) + gcost[curr_node]
+                if first == 1:
+                    gcost[i] = opt_cost 
+                if opt_cost >= gcost[i]:
+                    continue
+
+                visited_nodes[i] = curr_node
+                gcost[i] = opt_cost
+                fcost[i] = gcost[i] + self.planning_env.ComputeHeuristicCost(i,goal_node)
+        
+        return plan
+
+    
+    def make_plan(visited_nodes, curr_node):    
+        plan.append(start_config)
+        while curr_node in visited_nodes.Keys:
+            curr_node = visited_nodes[curr_node]
+            plan.append(curr_node)
+        return plan
+
+
+
+
+        
